@@ -1,0 +1,58 @@
+﻿<Window x:Class="DateTimeConvert.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DateTimeConvert"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="600">
+    <Window.Resources>
+        <local:DateConverter x:Key="DateConverter"/>
+        <local:DateRules x:Key="DayRule"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <UniformGrid Columns="3">
+            <UniformGrid.Resources>
+                <Style TargetType="WrapPanel">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="10"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="MinWidth" Value="50"/>
+                </Style>
+            </UniformGrid.Resources>
+            <WrapPanel>
+                <Label>Day</Label>
+                <TextBox x:Name="Day">
+                </TextBox>
+            </WrapPanel>
+            <WrapPanel>
+                <Label>Month</Label>
+                <TextBox x:Name="Month">
+                </TextBox>
+            </WrapPanel>
+            <WrapPanel>
+                <Label>Year</Label>
+                <TextBox x:Name="Year">
+                </TextBox>
+            </WrapPanel>
+        </UniformGrid>
+        <TextBlock x:Name="DateBlock" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" >
+            <TextBlock.Text>
+                <MultiBinding Converter="{StaticResource DateConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" StringFormat="dd.mm.yyyy" >
+                    <Binding ElementName="Day" Path="Text" >
+                        <Binding.ValidationRules>
+                            <local:DateRules/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                    <Binding ElementName="Month" Path="Text"/>
+                    <Binding ElementName="Year" Path="Text"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+    </Grid>
+</Window>
