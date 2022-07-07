@@ -14,10 +14,11 @@ namespace DateTimeConvert
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (values.Length == 0) return " ";
-            int year = 1, month = 1, day = 1;
+            int year , month , day ;
             if (!int.TryParse(values[0].ToString(), out day)) return null;
             if (!int.TryParse(values[1].ToString(), out month)) return null;
             if (!int.TryParse(values[2].ToString(), out year)) return null;
+            if (day < 0 || month < 0 || year < 0) return null;
 
             DateTime dateTime = new DateTime(year, month, day);
 
@@ -34,11 +35,11 @@ namespace DateTimeConvert
     public class DateRules : ValidationRule
     {
         public DateTime Date { get; set; } = DateTime.Now;
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        public override ValidationResult Validate(object value,
+            CultureInfo culture)
         {
-            int day;
-            if (!int.TryParse(value.ToString(), out day)) new ValidationResult(false, "out");
-            return day > 0 ? new ValidationResult(true, null) : new ValidationResult(false, "out");
+            
+            return new ValidationResult(true, null);
         }
     }
 

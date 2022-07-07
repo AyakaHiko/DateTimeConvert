@@ -28,6 +28,13 @@
             <WrapPanel>
                 <Label>Day</Label>
                 <TextBox x:Name="Day">
+                    <!--<TextBox.Text>-->
+                    <!--<Binding Path="DateBlock" >
+                        <Binding.ValidationRules>
+                            <local:DateRules/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>-->
                 </TextBox>
             </WrapPanel>
             <WrapPanel>
@@ -41,18 +48,15 @@
                 </TextBox>
             </WrapPanel>
         </UniformGrid>
-        <TextBlock x:Name="DateBlock" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" >
-            <TextBlock.Text>
+        <Calendar  HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Center">
+            <Calendar.SelectedDate>
                 <MultiBinding Converter="{StaticResource DateConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" StringFormat="dd.mm.yyyy" >
                     <Binding ElementName="Day" Path="Text" >
-                        <Binding.ValidationRules>
-                            <local:DateRules/>
-                        </Binding.ValidationRules>
                     </Binding>
                     <Binding ElementName="Month" Path="Text"/>
                     <Binding ElementName="Year" Path="Text"/>
                 </MultiBinding>
-            </TextBlock.Text>
-        </TextBlock>
+            </Calendar.SelectedDate>
+        </Calendar>
     </Grid>
 </Window>
