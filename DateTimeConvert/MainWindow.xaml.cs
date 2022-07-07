@@ -25,6 +25,10 @@ namespace DateTimeConvert
         {
             InitializeComponent();
         }
-        
+
+        private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Calendar.DisplayDate = Calendar.SelectedDates[0];
+        }
     }
 }
