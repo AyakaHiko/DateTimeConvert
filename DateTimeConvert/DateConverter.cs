@@ -37,15 +37,21 @@ namespace DateTimeConvert
 
     public class DateRules : ValidationRule
     {
-        public int MaxValue { get; set; } = 12;
         public override ValidationResult Validate(object value,
             CultureInfo culture)
         {
-            if (!int.TryParse(value.ToString(), out var date)) return new ValidationResult(false, "not valid");
-            if (MaxValue <= 0) return ValidationResult.ValidResult;
-            if (date <= 0 || date > MaxValue)
-                return new ValidationResult(false, "out of bounds");
-            return ValidationResult.ValidResult;
+            var values = (string)value;
+            try
+            {
+                DateTime d;
+                if(DateTime.TryParse(values, out d))
+                    return ValidationResult.ValidResult;
+            }
+            catch (Exception)
+            {
+                return new ValidationResult(false, null);
+            }
+            return new ValidationResult(false, null);
         }
 
     }

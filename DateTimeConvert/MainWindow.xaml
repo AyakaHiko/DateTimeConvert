@@ -76,7 +76,7 @@
             <TextBox.Text>
                 <Binding ElementName="Calendar" Path="DisplayDate" StringFormat="dd/MM/yyyy" >
                     <Binding.ValidationRules>
-                        <local:DateRules MaxValue="2022"/>
+                        <local:DateRules/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
