@@ -12,38 +12,26 @@ namespace DateTimeConvert
     [ValueConversion(typeof(DateTime), typeof(string))]
     public class DateConverter : IValueConverter
     {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values.Length == 0) return null;
-            if (!int.TryParse(values[0].ToString(), out var day)) return null;
-            if (!int.TryParse(values[1].ToString(), out var month)) return null;
-            if (!int.TryParse(values[2].ToString(), out var year)) return null;
+            if (value == null) return null;
+            string s = (string)value;
+            if (string.IsNullOrEmpty(s)) return null;
             try
             {
-                DateTime dateTime = new DateTime(year, month, day);
-                return dateTime;
+                return DateTime.Parse(s);
             }
             catch (Exception)
             {
                 return null;
             }
-        }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            var date = (DateTime)value;
-            return new object[] { date.Day.ToString(), date.Month.ToString(), date.Year.ToString() };
-        }
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return DateTime.Parse(value?.ToString());
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             DateTime date = (DateTime)value;
-            return date.ToString();
+            return $"{date.Day}/{date.Month}/{date.Year}";
         }
     }
 

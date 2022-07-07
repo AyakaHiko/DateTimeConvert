@@ -74,24 +74,18 @@
         </UniformGrid>-->
         <TextBox x:Name="DateBox" Width="100" Height="20">
             <TextBox.Text>
-                <Binding  StringFormat="dd-MM-YYYY">
+                <Binding ElementName="Calendar" Path="DisplayDate" StringFormat="dd/MM/yyyy" >
                     <Binding.ValidationRules>
                         <local:DateRules MaxValue="2022"/>
                     </Binding.ValidationRules>
                 </Binding>
-
             </TextBox.Text>
         </TextBox>
-        <Calendar x:Name="Calendar" HorizontalAlignment="Center"  Grid.Row="1" VerticalAlignment="Center" SelectedDatesChanged="Calendar_SelectedDatesChanged">
+        <Calendar  x:Name="Calendar" HorizontalAlignment="Center"  Grid.Row="1" VerticalAlignment="Center" SelectedDatesChanged="Calendar_SelectedDatesChanged">
             <Calendar.SelectedDate>
-                <Binding ElementName="DateBox" Path="Text"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-
+                <Binding Converter="{StaticResource DateConverter}" ElementName="DateBox" Path="Text"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                 </Binding>
-                <!--<MultiBinding Converter="{StaticResource DateConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" NotifyOnTargetUpdated="True">
-                    <Binding ElementName="Day" Path="Text"  NotifyOnTargetUpdated="True"/>
-                    <Binding ElementName="Month" Path="Text"/>
-                    <Binding ElementName="Year" Path="Text"/>
-                </MultiBinding>-->
+
             </Calendar.SelectedDate>
         </Calendar>
     </Grid>

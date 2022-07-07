@@ -28,8 +28,8 @@ namespace DateTimeConvert
 
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(Calendar.SelectedDates.Count > 0)
-            Calendar.DisplayDate = Calendar.SelectedDates[0];
+            if (Calendar.SelectedDates.Count > 0)
+                Calendar.DisplayDate = Calendar.SelectedDates[0];
         }
     }
 }
