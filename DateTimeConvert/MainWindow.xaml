@@ -8,28 +8,13 @@
         Title="MainWindow" Height="450" Width="600">
     <Window.Resources>
         <local:DateConverter x:Key="DateConverter"/>
-        <ControlTemplate x:Key="InputErrorTemplate">
-            <DockPanel>
-                <Ellipse DockPanel.Dock="Right" Margin="2,0" 
-                         ToolTip="Contains invalid data"
-                         Width="10" Height="10">
-                    <Ellipse.Fill>
-                        <LinearGradientBrush>
-                            <GradientStop Color="#11FF1111" Offset="0" />
-                            <GradientStop Color="#FFFF0000" Offset="1" />
-                        </LinearGradientBrush>
-                    </Ellipse.Fill>
-                </Ellipse>
-                <AdornedElementPlaceholder />
-            </DockPanel>
-        </ControlTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <UniformGrid Columns="3">
+        <!--<UniformGrid Columns="3">
             <UniformGrid.Resources>
                 <Style TargetType="WrapPanel">
                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -86,14 +71,27 @@
                     </TextBox.Text>
                 </TextBox>
             </WrapPanel>
-        </UniformGrid>
+        </UniformGrid>-->
+        <TextBox x:Name="DateBox" Width="100" Height="20">
+            <TextBox.Text>
+                <Binding  StringFormat="dd-MM-YYYY">
+                    <Binding.ValidationRules>
+                        <local:DateRules MaxValue="2022"/>
+                    </Binding.ValidationRules>
+                </Binding>
+
+            </TextBox.Text>
+        </TextBox>
         <Calendar x:Name="Calendar" HorizontalAlignment="Center"  Grid.Row="1" VerticalAlignment="Center" SelectedDatesChanged="Calendar_SelectedDatesChanged">
             <Calendar.SelectedDate>
-                <MultiBinding Converter="{StaticResource DateConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" NotifyOnTargetUpdated="True">
+                <Binding ElementName="DateBox" Path="Text"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+
+                </Binding>
+                <!--<MultiBinding Converter="{StaticResource DateConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" NotifyOnTargetUpdated="True">
                     <Binding ElementName="Day" Path="Text"  NotifyOnTargetUpdated="True"/>
                     <Binding ElementName="Month" Path="Text"/>
                     <Binding ElementName="Year" Path="Text"/>
-                </MultiBinding>
+                </MultiBinding>-->
             </Calendar.SelectedDate>
         </Calendar>
     </Grid>

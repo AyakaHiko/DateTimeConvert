@@ -9,7 +9,8 @@ using System.Windows.Data;
 
 namespace DateTimeConvert
 {
-    public class DateConverter : IMultiValueConverter
+    [ValueConversion(typeof(DateTime), typeof(string))]
+    public class DateConverter : IValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
@@ -32,6 +33,17 @@ namespace DateTimeConvert
         {
             var date = (DateTime)value;
             return new object[] { date.Day.ToString(), date.Month.ToString(), date.Year.ToString() };
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return DateTime.Parse(value?.ToString());
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            DateTime date = (DateTime)value;
+            return date.ToString();
         }
     }
 
@@ -83,7 +95,7 @@ namespace DateTimeConvert
             return ValidationResult.ValidResult;
         }
     }
-    
+
 
 
 }
