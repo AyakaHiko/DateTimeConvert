@@ -42,6 +42,7 @@ namespace DateTimeConvert
             CultureInfo culture)
         {
             if (!int.TryParse(value.ToString(), out var date)) return new ValidationResult(false, "not valid");
+            if (MaxValue <= 0) return ValidationResult.ValidResult;
             if (date <= 0 || date > MaxValue)
                 return new ValidationResult(false, "out of bounds");
             return ValidationResult.ValidResult;
