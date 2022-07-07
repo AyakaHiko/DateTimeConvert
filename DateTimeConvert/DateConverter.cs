@@ -40,18 +40,11 @@ namespace DateTimeConvert
             CultureInfo culture)
         {
             var values = (string)value;
-            try
-            {
-                DateTime d;
-                if(DateTime.TryParse(values, out d))
-                    return ValidationResult.ValidResult;
-            }
-            catch (Exception)
-            {
-                return new ValidationResult(false, null);
-            }
+
+            if (DateTime.TryParse(values, out var d))
+                return ValidationResult.ValidResult;
             return new ValidationResult(false, null);
-        }
+            }
 
     }
 
