@@ -20,9 +20,20 @@
                 <Style TargetType="WrapPanel">
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="Margin" Value="10"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
                 </Style>
                 <Style TargetType="TextBox">
                     <Setter Property="MinWidth" Value="50"/>
+                    <Style.Triggers>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <Binding Path="(Validation.Errors)[0].ErrorContent" 
+                                             RelativeSource="{x:Static RelativeSource.Self}" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
                 </Style>
             </UniformGrid.Resources>
             <WrapPanel>
@@ -31,7 +42,8 @@
                     <TextBox.Text>
                         <MultiBinding StringFormat="{}{0}"> 
                             <MultiBinding.ValidationRules>
-                                <local:DayRules/>
+                                <local:DayRules >
+                                </local:DayRules>
                             </MultiBinding.ValidationRules>
                         </MultiBinding>
                     </TextBox.Text>
@@ -41,9 +53,9 @@
                 <Label>Month</Label>
                 <TextBox x:Name="Month">
                     <TextBox.Text>
-                        <MultiBinding StringFormat="{}{0}" NotifyOnSourceUpdated="True" NotifyOnValidationError="True" NotifyOnTargetUpdated="True">
+                        <MultiBinding StringFormat="{}{0}"  ValidatesOnExceptions="True" ValidatesOnDataErrors="True" ValidatesOnNotifyDataErrors="True">
                             <MultiBinding.ValidationRules>
-                                <local:DateRules/>
+                                <local:DateRules MaxValue="12"/>
                             </MultiBinding.ValidationRules>
                         </MultiBinding>
                     </TextBox.Text>
@@ -55,7 +67,7 @@
                     <TextBox.Text>
                         <MultiBinding StringFormat="{}{0}">
                             <MultiBinding.ValidationRules>
-                                <local:DateRules/>
+                                <local:DateRules MaxValue="2022"/>
                             </MultiBinding.ValidationRules>
                         </MultiBinding>
                     </TextBox.Text>

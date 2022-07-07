@@ -22,7 +22,7 @@ namespace DateTimeConvert
                 DateTime dateTime = new DateTime(year, month, day);
                 return dateTime;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return null;
             }
@@ -37,40 +37,31 @@ namespace DateTimeConvert
 
     public class DateRules : ValidationRule
     {
-        public DateTime Date { get; set; } = DateTime.Now;
+        public int MaxValue { get; set; } = 12;
         public override ValidationResult Validate(object value,
             CultureInfo culture)
         {
-            return new ValidationResult(true, null);
-
-            if (!int.TryParse(value.ToString(), out var d)) return new ValidationResult(false, "not valid");
-            //test
-            if (d <= 0) return new ValidationResult(false, "out of bounds");
-            //todo
-            return new ValidationResult(true, null);
+            if (!int.TryParse(value.ToString(), out var date)) return new ValidationResult(false, "not valid");
+            if (date <= 0 || date > MaxValue)
+                return new ValidationResult(false, "out of bounds");
+            return ValidationResult.ValidResult;
         }
 
     }
 
-    public class DayRules : DateRules
+    public class DayRules : ValidationRule
     {
+        public int Month { get; set; }
+        public int Year { get; set; }
         public override ValidationResult Validate(object value,
             CultureInfo culture)
         {
             ValidationResult outOfBounds = new ValidationResult(false, "out of bounds");
             if (!int.TryParse(value.ToString(), out var day)) return new ValidationResult(false, "not valid");
             if (day <= 0 || day > 31) return outOfBounds;
-            switch (Date.Month)
+            if (Month <= 0) return ValidationResult.ValidResult;
+            switch (Month)
             {
-                case 1:
-                case 3:
-                case 5:
-                case 7:
-                case 8:
-                case 10:
-                case 12:
-                    if (day > 31) return outOfBounds;
-                    break;
                 case 4:
                 case 6:
                 case 9:
@@ -78,7 +69,8 @@ namespace DateTimeConvert
                     if (day > 30) return outOfBounds;
                     break;
                 case 2:
-                    if (DateTime.IsLeapYear(Date.Year) && day > 29)
+                    if (Year <= 0) break;
+                    if (DateTime.IsLeapYear(Year) && day > 29)
                     {
                         return outOfBounds;
                     }
@@ -87,10 +79,10 @@ namespace DateTimeConvert
                 default:
                     return outOfBounds;
             }
-
-            return new ValidationResult(true, null);
+            return ValidationResult.ValidResult;
         }
     }
+    
 
 
 }
